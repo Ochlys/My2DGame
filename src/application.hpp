@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "player.hpp"
+#include "tile.hpp"
 
 namespace GAME {
 
@@ -28,11 +29,11 @@ namespace GAME {
     
         sf::RenderWindow* _window = nullptr;
 
-        std::vector<std::vector<sf::RectangleShape>> _grid;
+        std::vector<std::vector<Tile>> _grid;
         
         const float     _squareSize     = 50.f; 
-        const sf::Color _squareColor    = sf::Color::Red;
-        const sf::Color _squareColor2   = sf::Color::Magenta;
+        // const sf::Color _squareColor    = sf::Color::Red;
+        // const sf::Color _squareColor2   = sf::Color::Magenta;
 
         Player      _player;
     };

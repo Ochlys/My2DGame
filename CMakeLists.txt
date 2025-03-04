@@ -17,6 +17,8 @@ set(HEADERS
   src/application.hpp
   src/player.hpp  # Ajoute aussi player.hpp s'il manque
   src/utils/vectors.hpp
+  src/utils/tiles.hpp
+  src/utils/collisionManager.hpp
 )
 
 add_executable(SFML_Moving_Circle ${SOURCES} ${HEADERS})
