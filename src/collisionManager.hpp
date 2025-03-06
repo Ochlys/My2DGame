@@ -10,14 +10,15 @@ namespace GAME {
         sf::RectangleShape collisionShape;
         sf::Vector2f position;
 
-        collisionManager(float x, float y, float width, float height, sf::Color color){
-
-            position = sf::Vector2f(x,y);
+        collisionManager(float x, float y, float width, float height, sf::Color color) {
+            position = sf::Vector2f(x, y);
             collisionShape.setPosition(position);
             collisionShape.setSize(sf::Vector2f(width, height));
-            collisionShape.setFillColor(color);
-
+            collisionShape.setFillColor(sf::Color::Transparent);
+            collisionShape.setOutlineColor(color);
+            collisionShape.setOutlineThickness(3);
         }
+        
 
     };
     

@@ -75,7 +75,7 @@ namespace GAME {
     void Application::_initGrid(const int sizeX, const int sizeY) {
         _grid.resize(sizeX, std::vector<Tile>(sizeY, Tile(_squareSize, TileType::Grass)));
     
-        sf::Color transparentRed(0, 0, 0, 0);
+        sf::Color transparentRed(255, 0, 0, 128);
     
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
@@ -88,13 +88,11 @@ namespace GAME {
                     _grid[x][y].shape.setFillColor(sf::Color::Green);
                 } else if (type == TileType::Water) {
                     _grid[x][y].shape.setFillColor(sf::Color::Blue);
+
                     _collisions.emplace_back(x * _squareSize, y * _squareSize, _squareSize, _squareSize, transparentRed);
                 }
             }
         }
     }
-    
-    
-    
     
 }
