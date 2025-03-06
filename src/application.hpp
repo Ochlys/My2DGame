@@ -30,6 +30,7 @@ namespace GAME {
         sf::RenderWindow* _window = nullptr;
 
         std::vector<std::vector<Tile>> _grid;
+        std::vector<collisionManager> _collisions; // liste des collisions
         
         const float     _squareSize     = 50.f; 
         // const sf::Color _squareColor    = sf::Color::Red;

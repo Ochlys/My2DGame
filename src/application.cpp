@@ -26,8 +26,6 @@ namespace GAME {
         
         const sf::RectangleShape& playerShape = _player.getShape();
 
-        GAME::collisionManager collision(100, 100, 50, 50, sf::Color::Black);
-
         sf::Clock clock;
         const double frameTime = 1.0 / _fps; 
         double deltaTime = 0.0; 
@@ -51,16 +49,23 @@ namespace GAME {
             // Mises à jours
             _player.update(_window->getSize(), deltaTime);
 
-            // Affichages
+            // AFFICHAGES
+
             _window->clear();
 
+            //Grille
             for (int x = 0; x < _grid.size(); x++) {
                 for (int y = 0; y < _grid[0].size(); y++) {
                     _window->draw(_grid[x][y].shape);
                 }
             }
 
-            _window->draw(collision.collisionShape);
+            // les collisions
+            for (const collisionManager& collision : _collisions) {
+                _window->draw(collision.collisionShape);
+            }
+
+            //joueur
             _window->draw(playerShape);
 
             _window->display();
@@ -70,14 +75,26 @@ namespace GAME {
     void Application::_initGrid(const int sizeX, const int sizeY) {
         _grid.resize(sizeX, std::vector<Tile>(sizeY, Tile(_squareSize, TileType::Grass)));
     
+        sf::Color transparentRed(0, 0, 0, 0);
+    
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
-
                 TileType type = (rand() % 15 == 0) ? TileType::Water : TileType::Grass;
-
+    
                 _grid[x][y] = Tile(_squareSize, type);
                 _grid[x][y].shape.setPosition(x * _squareSize, y * _squareSize);
+    
+                if (type == TileType::Grass) {
+                    _grid[x][y].shape.setFillColor(sf::Color::Green);
+                } else if (type == TileType::Water) {
+                    _grid[x][y].shape.setFillColor(sf::Color::Blue);
+                    _collisions.emplace_back(x * _squareSize, y * _squareSize, _squareSize, _squareSize, transparentRed);
+                }
             }
         }
     }
+    
+    
+    
+    
 }

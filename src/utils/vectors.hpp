@@ -14,4 +14,4 @@ namespace UTILS {
     }
 }
 
-#endif // __VECTOR_HPP__    
+#endif // __VECTORS_HPP__

@@ -6,16 +6,18 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(SFML 2.6.1 COMPONENTS graphics window system REQUIRED)
 
+# Fichiers sources .cpp à compiler
 set(SOURCES 
   src/main.cpp
   src/application.cpp
-  src/player.cpp  # Ajoute ici player.cpp
+  src/player.cpp
 )
 
+# Fichiers d'en-tête .hpp, qui ne doivent pas être compilés
 set(HEADERS 
   src/defines.hpp
   src/application.hpp
-  src/player.hpp  # Ajoute aussi player.hpp s'il manque
+  src/player.hpp
   src/utils/vectors.hpp
   src/utils/tiles.hpp
   src/utils/collisionManager.hpp
