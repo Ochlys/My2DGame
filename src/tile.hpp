@@ -1,31 +1,28 @@
-#ifndef TILE_HPP
-#define TILE_HPP
+#ifndef __TILE_HPP__
+#define __TILE_HPP__
 
 #include <SFML/Graphics.hpp>
-#include "collisionManager.hpp"
+#include "defines.hpp"
 
 namespace GAME {
 
-    enum class TileType { Grass, Water, Sand };
-
     struct Tile {
-        sf::RectangleShape shape;
-        TileType type;
-        collisionManager collision;
+        bool IsTraversable;
+        sf::Color Color;
+        
+        sf::RectangleShape Shape = sf::RectangleShape(SQUARE_SIZE2);
+        sf::Vector2i Position = sf::Vector2i(0, 0);
 
-        Tile(float size, TileType tiletype) : type(tiletype), collision(0, 0, size, size, sf::Color::Black) {
-            shape.setSize(sf::Vector2f(size, size));
-
-            if (type == TileType::Grass)
-                shape.setFillColor(sf::Color::Green);
-            else if (type == TileType::Sand)
-                shape.setFillColor(sf::Color::Yellow);
-            else
-                shape.setFillColor(sf::Color::Blue);
-        }
+        static const Tile Grass;
+        static const Tile Water;
+        static const Tile Sand;
+        static const Tile Void;
     };
 
+    inline const Tile Tile::Grass = {true, sf::Color::Green};
+    inline const Tile Tile::Water = {false, sf::Color::Blue};
+    inline const Tile Tile::Sand = {true, sf::Color::Yellow};
+    inline const Tile Tile::Void = {false, sf::Color::Black};
 }
-
 
 #endif // TILE_HPP

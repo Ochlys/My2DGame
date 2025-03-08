@@ -5,14 +5,17 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "defines.hpp"
 #include "player.hpp"
 #include "tile.hpp"
 
+
 namespace GAME {
+    typedef std::vector<std::vector<Tile>> Map;
 
     class Application {
     public:
-        Application(std::string name, int width, int height);
+        Application(const std::string& name, const int width, const int height);
         void run();
     
     private:
@@ -29,14 +32,9 @@ namespace GAME {
     
         sf::RenderWindow* _window = nullptr;
 
-        std::vector<std::vector<Tile>> _grid;
-        std::vector<collisionManager> _collisions; // liste des collisions
-        
-        const float     _squareSize     = 50.f; 
-        // const sf::Color _squareColor    = sf::Color::Red;
-        // const sf::Color _squareColor2   = sf::Color::Magenta;
+        Map _grid;
 
-        Player      _player;
+        Player _player;
     };
 }
 

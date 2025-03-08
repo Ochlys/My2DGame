@@ -1,16 +1,19 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#ifndef __PLAYER_HPP__
+#define __PLAYER_HPP__
 
 #include <SFML/Graphics.hpp>
 #include "utils/vectors.hpp"
+#include "tile.hpp"
 
 namespace GAME {
+    typedef std::vector<std::vector<Tile>> Map;
 
     class Player {
     public:
-        Player(float width, float height, sf::Color color);
-        void update(const sf::Vector2u window, const double deltaTime);
-        const sf::RectangleShape& getShape();  // Retourner une référence au joueur
+        Player(const float width, const float height, const sf::Color& color);
+        void update(const sf::Vector2u& windowSize, const double deltaTime, const Map& map);
+        const sf::RectangleShape& getShape();
+        static bool isValidPosition(const sf::Vector2f& position, const Map& map);
 
     private:
         /* Paramètre */
@@ -31,4 +34,4 @@ namespace GAME {
 
 }
 
-#endif
+#endif // __PLAYER_HPP__

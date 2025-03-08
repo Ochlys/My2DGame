@@ -1,4 +1,5 @@
 #include "defines.hpp"
+#include "application.hpp"
 
 int main() {
 
