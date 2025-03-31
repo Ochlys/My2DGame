@@ -18,7 +18,7 @@ namespace GAME {
         if(DEBUG)
             std::cout << "Débug mode activé." << std::endl;
 
-        _initGrid(20, 12); 
+        _initGrid(25, 12); 
     }
 
     void Application::run() {
@@ -29,7 +29,7 @@ namespace GAME {
         sf::Clock clock;
         const double frameTime = 1.0 / _fps; 
         double deltaTime = 0.0; 
-        
+
         // to display collisions
         sf::RectangleShape displayCollision(SQUARE_SIZE2);
         displayCollision.setFillColor(sf::Color(200, 0, 0, 150));
@@ -67,6 +67,38 @@ namespace GAME {
                     }
                 }
             }
+
+            //Caméra
+
+            // Position du perso
+            float playerX = playerShape.getPosition().x;
+            float playerY = playerShape.getPosition().y;
+
+            // Taille de la fenêtre
+            float windowWidth = _window->getSize().x;
+            float windowHeight = _window->getSize().y;
+                    
+            // Taille de la map
+            float mapWidth = _grid.size() * SQUARE_SIZE;
+            float mapHeight = _grid[0].size() * SQUARE_SIZE;
+         
+            // Limites de la caméra
+            float halfWidth = windowWidth / 2.f;
+            float halfHeight = windowHeight / 2.f;
+
+            // Centre de la caméra
+            float cameraX = playerX - (windowWidth / 2.f);
+            float cameraY = playerY - (windowHeight / 2.f);
+
+            Camera camera(mapWidth, mapHeight, windowWidth, windowHeight);
+
+            sf::Vector2f playerPosition(playerX, playerY);
+            camera.update(playerPosition);
+
+            // Vue
+            sf::View view = _window->getView();
+
+            _window->setView(camera.getView());
 
             // Joueur
             _window->draw(playerShape);

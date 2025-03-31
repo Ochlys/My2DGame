@@ -8,6 +8,7 @@
 #include "defines.hpp"
 #include "player.hpp"
 #include "tile.hpp"
+#include "utils/Camera.hpp"
 
 
 namespace GAME {
