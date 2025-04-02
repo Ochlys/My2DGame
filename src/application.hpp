@@ -9,6 +9,7 @@
 #include "player.hpp"
 #include "tile.hpp"
 #include "utils/Camera.hpp"
+#include "entity.hpp"
 
 
 namespace GAME {
@@ -36,6 +37,7 @@ namespace GAME {
         Map _grid;
 
         Player _player;
+        Entity _entity;
     };
 }
 

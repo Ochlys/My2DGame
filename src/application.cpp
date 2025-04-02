@@ -4,7 +4,8 @@ namespace GAME {
 
     Application::Application(const std::string& name, const int width, const int height) :
     _name(name), _width(width), _height(height), 
-    _player(50.f, 50.f, sf::Color::Red)
+    _player(50.f, 50.f, sf::Color::Red),
+    _entity(50.f, 50.f, sf::Color::Yellow)
     {
         _window = new sf::RenderWindow(sf::VideoMode(_width, _height), _name);
 
@@ -102,6 +103,10 @@ namespace GAME {
 
             // Joueur
             _window->draw(playerShape);
+
+            //entity
+            _window->draw(_entity.getShape());
+            _entity.update(deltaTime, _grid);
 
             _window->display();
         }
