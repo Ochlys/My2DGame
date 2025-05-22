@@ -24,7 +24,7 @@ namespace GAME {
         float               _entityWidth;
         float               _entityHeight;
 
-        sf::Vector2f        _position = {300.f, 200.f};
+        sf::Vector2f        _position = {600.f, 400.f};
         sf::RectangleShape  _shape;
         sf::Color           _entityColor;
         sf::Vector2f        _velocity;

@@ -3,7 +3,7 @@
 
 int main() {
 
-    const std::string name = "Game";
+    const std::string name = "Project2DGame";
     const int width = 1280;
     const int height = 720;
 

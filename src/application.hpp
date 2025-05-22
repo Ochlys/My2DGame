@@ -38,6 +38,12 @@ namespace GAME {
 
         Player _player;
         Entity _entity;
+
+        sf::Texture _grassTexture;
+        sf::Texture _waterTexture;
+        sf::Texture _treeTexture;
+        sf::Sprite _grassSprite;
+        sf::Sprite _treeSprite;
     };
 }
 

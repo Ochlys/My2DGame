@@ -37,38 +37,15 @@ namespace GAME {
 
 
         sf::Vector2f newPosition = _position + sf::Vector2f(_velocity.x, 0.0f);
-        // si on peut bouger en X
-        if(isValidPosition(newPosition / SQUARE_SIZE, map)){
 
-            newPosition = _position + sf::Vector2f(0.f, _velocity.y);
-            // si on peut bouger en Y
-            if(isValidPosition(newPosition / SQUARE_SIZE, map))
-                _position += sf::Vector2f(_velocity.x, _velocity.y);
-            else // si impossible en Y
-                _position += sf::Vector2f(_velocity.x, 0.0f);
-            
-        } // si impossible en X
-        else {
+        if(!isValidPosition(newPosition / SQUARE_SIZE, map))
+             _velocity.x = 0.0;
 
-            newPosition = _position + sf::Vector2f(0.f, _velocity.y);
-            // si on peut bouger en Y
-            if(isValidPosition(newPosition / SQUARE_SIZE, map))
-                _position += sf::Vector2f(0.f, _velocity.y);
-            else // si impossible en Y
-                _position += sf::Vector2f(0.f, 0.0f);
-            
-        }
+        newPosition = _position + _velocity;
+        if(!isValidPosition(newPosition / SQUARE_SIZE, map))
+            _velocity.y = 0.0;
 
-        // C'est pareil, plus court mais moins lisible
-        // sf::Vector2f newPosition = _position + sf::Vector2f(_velocity.x, 0.0f);
-        // if(!isValidPosition(newPosition / SQUARE_SIZE, map))
-        //     _velocity.x = 0.0;
-
-        // newPosition = _position + _velocity;
-        // if(!isValidPosition(newPosition / SQUARE_SIZE, map))
-        //     _velocity.y = 0.0;
-
-        // _position += _velocity;
+        _position += _velocity;
 
         _shape.setPosition(_position);
     }

@@ -8,6 +8,7 @@ namespace GAME {
         _shape.setSize({_entityWidth, _entityHeight});
         _shape.setFillColor(color);
         _shape.setPosition(_position);
+        _shape.setOrigin(_entityWidth / 2, _entityHeight / 2);
     }
 
     void Entity::update(double deltaTime, const Map& map) {
@@ -48,31 +49,32 @@ namespace GAME {
 
     bool Entity::isValidPosition(const sf::Vector2f& position, const Map& map) {
 
-        int topLeftX = (position.x / SQUARE_SIZE);
-        int topLeftY = (position.y / SQUARE_SIZE);
-        int bottomRightX = ((position.x + SQUARE_SIZE) / SQUARE_SIZE);
-        int bottomRightY = ((position.y + SQUARE_SIZE) / SQUARE_SIZE);
-    
+        //calcul des coins >:(
+        sf::Vector2f topLeft((position.x - 0.49f * SQUARE_SIZE) / SQUARE_SIZE, (position.y - 0.49f * SQUARE_SIZE) / SQUARE_SIZE);
+        sf::Vector2f topRight((position.x + 0.49f * SQUARE_SIZE) / SQUARE_SIZE, (position.y - 0.49f * SQUARE_SIZE) / SQUARE_SIZE);
+        sf::Vector2f bottomRight((position.x + 0.49f * SQUARE_SIZE) / SQUARE_SIZE, (position.y + 0.49f * SQUARE_SIZE) / SQUARE_SIZE);
+        sf::Vector2f bottomLeft((position.x - 0.49f * SQUARE_SIZE) / SQUARE_SIZE, (position.y + 0.49f * SQUARE_SIZE) / SQUARE_SIZE);
 
-        if (topLeftX < 0 || topLeftY < 0 || bottomRightX >= map.size() || bottomRightY >= map[0].size()) {
-            return false;
-        }
-    
-        for (int x = topLeftX; x <= bottomRightX; ++x) {
-            for (int y = topLeftY; y <= bottomRightY; ++y) {
-                if (bottomRightX >= map.size() || bottomRightY >= map[0].size()) {
-                    return false;
-                }
-                if (topLeftX < 0 || topLeftY < 0) {
-                    return false;
-                }
-                if (!map[x][y].IsTraversable) {
-                    return false;
-                }
+        //conversion des coins en int ?
+        std::vector<sf::Vector2i> tilesOfPosition(4);
+        tilesOfPosition[0] = sf::Vector2i(topLeft);
+        tilesOfPosition[1] = sf::Vector2i(bottomRight);
+        tilesOfPosition[2] = sf::Vector2i(topRight);
+        tilesOfPosition[3] = sf::Vector2i(bottomLeft);
+
+        //vérification
+                for(sf::Vector2i& tile : tilesOfPosition){
+            if(tile.x >= map.size() || tile.y >= map[0].size())
+                return false;
+            if(tile.x < 0 || tile.y < 0)
+                return false;
+            if(!map[tile.x][tile.y].IsTraversable){
+                return false;
             }
         }
-    
         return true;
+
     }
+
     
 }

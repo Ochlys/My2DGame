@@ -9,6 +9,16 @@ namespace GAME {
     {
         _window = new sf::RenderWindow(sf::VideoMode(_width, _height), _name);
 
+        if (!_grassTexture.loadFromFile("../src/textures/grass/grass.png")) {
+            std::cerr << "Erreur : impossible de charger l'image d'herbe !" << std::endl;
+        }
+
+        if (!_waterTexture.loadFromFile("../src/textures/water/water.png")) {
+            std::cerr << "Erreur : impossible de charger l'image d'eau !" << std::endl;
+        }
+        
+        _initGrid(25, 12); 
+
         std::cout << "Application initialisée."
         << std::endl << "SFML version: " 
         << SFML_VERSION_MAJOR << "." 
@@ -31,7 +41,7 @@ namespace GAME {
         const double frameTime = 1.0 / _fps; 
         double deltaTime = 0.0; 
 
-        // to display collisions
+        // AFFICHER LES COLLISIONS
         sf::RectangleShape displayCollision(SQUARE_SIZE2);
         displayCollision.setFillColor(sf::Color(200, 0, 0, 150));
 
@@ -108,27 +118,60 @@ namespace GAME {
             _window->draw(_entity.getShape());
             _entity.update(deltaTime, _grid);
 
+            _window->draw(_treeSprite);
+
             _window->display();
+
+
+            
         }
     }
 
     void Application::_initGrid(const int sizeX, const int sizeY) {
-        // Allocation of the grid
-        _grid.resize(sizeX);
-        for (auto& collumn : _grid)
-            collumn.resize(sizeY); 
-    
-        // Create the terrain
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
-                if(y == 0 || x == 0) _grid[x][y] = Tile::Void;
-                else _grid[x][y] = (rand() % 15 == 0) ? Tile::Water : Tile::Grass;
-                
-                _grid[x][y].Position = sf::Vector2i(x, y);
-                _grid[x][y].Shape.setPosition(x * SQUARE_SIZE, y * SQUARE_SIZE);
-                _grid[x][y].Shape.setFillColor(_grid[x][y].Color); 
+    _grid.resize(sizeX);
+    for (auto& column : _grid)
+        column.resize(sizeY);
+
+    for (int x = 0; x < sizeX; x++) {
+        for (int y = 0; y < sizeY; y++) {
+            if (y == 0 || x == 0) {
+                _grid[x][y] = Tile::Void;
+            }
+            else {
+                int randTile = rand() % 100;
+
+                if (randTile < 2) { 
+                    _grid[x][y] = Tile::Tree;
+                }
+                else if (randTile < 7) {
+                    _grid[x][y] = Tile::Water;
+                }
+                else {
+                    _grid[x][y] = Tile::Grass;
+                }
+            }
+
+            _grid[x][y].Position = sf::Vector2i(x, y);
+            _grid[x][y].Shape.setPosition(x * SQUARE_SIZE, y * SQUARE_SIZE);
+
+            // TEXTURES
+            if (_grid[x][y] == Tile::Grass) {
+                _grid[x][y].Shape.setTexture(&_grassTexture);
+            }
+            if (_grid[x][y] == Tile::Water) {
+                _grid[x][y].Shape.setTexture(&_waterTexture);
+            }
+            if (_grid[x][y] == Tile::Tree) {
+                _grid[x][y].Shape.setTexture(&_treeTexture);
+            }
+            else {
+                _grid[x][y].Shape.setFillColor(_grid[x][y].Color);
             }
         }
     }
+}
+
+    
+    
     
 }
