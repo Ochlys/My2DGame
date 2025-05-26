@@ -3,13 +3,15 @@
 
 #include <string>
 #include <iostream>
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "defines.hpp"
 #include "player.hpp"
 #include "tile.hpp"
 #include "utils/Camera.hpp"
-#include "entity.hpp"
+#include "entity/baseEntity.hpp"
+#include "entity/movingEntity.hpp"
 
 
 namespace GAME {
@@ -19,10 +21,9 @@ namespace GAME {
     public:
         Application(const std::string& name, const int width, const int height);
         void run();
-    
+            
     private:
         void _initGrid(const int sizeX, const int sizeY );
-
 
     private:
         const std::string _name;
@@ -36,8 +37,8 @@ namespace GAME {
 
         Map _grid;
 
-        Player _player;
-        Entity _entity;
+        std::shared_ptr<Player> m_pPlayer;
+        std::vector<std::shared_ptr<BaseEntity>> _entitys;
 
         sf::Texture _grassTexture;
         sf::Texture _waterTexture;

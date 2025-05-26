@@ -11,7 +11,7 @@ set(SOURCES
   src/main.cpp
   src/application.cpp
   src/player.cpp
-  src/entity.cpp
+  src/entity/movingEntity.cpp
 )
 
 # Fichiers d'en-tête .hpp, qui ne doivent pas être compilés
@@ -21,7 +21,10 @@ set(HEADERS
   src/player.hpp
   src/utils/vectors.hpp
   src/tile.hpp
-  src/entity.hpp
+  src/entity/movingEntity.hpp
+  src/entity/baseEntity.hpp
+  src/geometry/box.hpp
+
 )
 
 add_executable(SFML_Moving_Circle ${SOURCES} ${HEADERS})

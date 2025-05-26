@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace GAME {
-    const float SQUARE_SIZE = 50.f;
+    const float SQUARE_SIZE = 70.f;
     const sf::Vector2f SQUARE_SIZE2 = sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE);
     const bool DEBUG = false;
 }

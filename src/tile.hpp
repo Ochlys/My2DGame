@@ -24,8 +24,8 @@ namespace GAME {
         static const Tile Void;
     };
 
-    inline const Tile Tile::Grass = {true, sf::Color::Green};
-    inline const Tile Tile::Water = {false, sf::Color::Blue};
+    inline const Tile Tile::Grass = {true, sf::Color::White};
+    inline const Tile Tile::Water = {false, sf::Color::White};
     inline const Tile Tile::Sand = {true, sf::Color::Yellow};
     inline const Tile Tile::Void = {false, sf::Color::Black};
     inline const Tile Tile::Tree = {false, sf::Color::Red};
