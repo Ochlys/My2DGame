@@ -8,15 +8,19 @@ namespace GAME {
         _window = new sf::RenderWindow(sf::VideoMode(_width, _height), _name);
 
         if (!_grassTexture.loadFromFile("../src/textures/grass/grass.png")) {
-            std::cerr << "Erreur : impossible de charger l'image d'herbe !" << std::endl;
+            std::cerr << "Erreur : impossible de charger la tile Grass !" << std::endl;
         }
 
         if (!_waterTexture.loadFromFile("../src/textures/water/water.png")) {
-            std::cerr << "Erreur : impossible de charger l'image d'eau !" << std::endl;
+            std::cerr << "Erreur : impossible de charger la tile Water !" << std::endl;
         }
 
         if (!_treeTexture.loadFromFile("../src/textures/tree/tree.png")) {
-            std::cerr << "Erreur : impossible de charger l'image d'arbre !" << std::endl;
+            std::cerr << "Erreur : impossible de charger la tile Tree !" << std::endl;
+        }
+
+        if (!_sandTexture.loadFromFile("../src/textures/sand/tree.png")) {
+            std::cerr << "Erreur : impossible de charger la tile Sand !" << std::endl;
         }
 
 
@@ -66,46 +70,55 @@ namespace GAME {
             float fps = 1.f / deltaTime;
             // std::cout << "FPS: " << fps << std::endl;
 
+            // AFFICHAGES
+
             for(const auto& entity: _entitys)
                 entity->update(deltaTime, _grid, _entitys);
 
-            // AFFICHAGES
+            float windowWidth = _window->getSize().x;
+            float windowHeight = _window->getSize().y;
+            float mapWidth = _grid.size() * SQUARE_SIZE;
+            float mapHeight = _grid[0].size() * SQUARE_SIZE;
+
+            Camera camera(mapWidth, mapHeight, windowWidth, windowHeight);
+            camera.update(m_pPlayer->getPixelPosition());
+
             _window->clear();
+
+            _window->setView(camera.getView());
 
             // Grille
             for (int x = 0; x < _grid.size(); x++) {
                 for (int y = 0; y < _grid[0].size(); y++) {
-                    _window->draw(_grid[x][y].Shape);
                     if (DEBUG && !_grid[x][y].IsTraversable) {
                         displayCollision.setPosition(x * SQUARE_SIZE, y * SQUARE_SIZE);
-                        _window->draw(displayCollision);
+                        _window->draw(_grid[x][y].Shape);
+                    }
+                    if (_grid[x][y].IsTraversable) {
+                        _window->draw(_grid[x][y].Shape);
                     }
                 }
             }
 
-            //Caméra
+            // for (int x = 0; x < _grid.size(); ++x) { 
+            //     for (int y = 0; y < _grid[x].size(); ++y) {
+            //         if (_grid[x][y] == Tile::Water) {
+            //             _grid[x][y].Shape.setTexture(&_waterTexture);
+            //         }
+            //     }
+            // }
 
-            // Taille de la fenêtre
-            float windowWidth = _window->getSize().x;
-            float windowHeight = _window->getSize().y;
-                    
-            // Taille de la map
-            float mapWidth = _grid.size() * SQUARE_SIZE;
-            float mapHeight = _grid[0].size() * SQUARE_SIZE;
-
-            // Centre de la caméra
-            Camera camera(mapWidth, mapHeight, windowWidth, windowHeight);
-            camera.update(m_pPlayer->getPixelPosition());
-
-            // Vue
-            sf::View view = _window->getView();
-
-            _window->setView(camera.getView());
-
-            // Entity
-            for(const auto& entity: _entitys)
+            for(const auto& entity: _entitys){
                 entity->draw(_window);
+            }
 
+            for (int x = 0; x < _grid.size(); x++) {
+                for (int y = 0; y < _grid[0].size(); y++) {
+                    if (!_grid[x][y].IsTraversable) {
+                        _window->draw(_grid[x][y].Shape);
+                    }
+                }
+            }
             _window->display();
         }
     }
@@ -134,6 +147,7 @@ namespace GAME {
                 _grid[x][y].Position = sf::Vector2i(x, y);
                 _grid[x][y].Shape.setPosition(x * SQUARE_SIZE, y * SQUARE_SIZE);
 
+
                 // TEXTURES
                 if (_grid[x][y] == Tile::Grass) {
                     _grid[x][y].Shape.setTexture(&_grassTexture);
@@ -141,6 +155,12 @@ namespace GAME {
                     _grid[x][y].Shape.setTexture(&_waterTexture);
                 } if (_grid[x][y] == Tile::Tree) {
                     _grid[x][y].Shape.setTexture(&_treeTexture);
+                    _grid[x][y].Shape.setSize(sf::Vector2f(SQUARE_SIZE, SQUARE_SIZE * 5));
+                    _grid[x][y].Shape.setPosition(x * SQUARE_SIZE, y * SQUARE_SIZE - SQUARE_SIZE * 4);
+                if (_grid[x][y] == Tile::Sand) {
+                    _grid[x][y].Shape.setTexture(&_sandTexture);
+                }
+
                 } else {
                     _grid[x][y].Shape.setFillColor(_grid[x][y].Color);
                 }

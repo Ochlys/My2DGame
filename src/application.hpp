@@ -43,8 +43,10 @@ namespace GAME {
         sf::Texture _grassTexture;
         sf::Texture _waterTexture;
         sf::Texture _treeTexture;
+        sf::Texture _sandTexture;
         sf::Sprite _grassSprite;
         sf::Sprite _treeSprite;
+        sf::Sprite _sandSprite;
     };
 }
 
